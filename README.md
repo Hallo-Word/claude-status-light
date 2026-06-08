@@ -1,8 +1,8 @@
 # Claude Status Light
 
-Floating desktop traffic light for Claude Code on macOS and Windows.
+Floating desktop traffic light for the Claude Code plugin inside VS Code on macOS and Windows.
 
-Claude Status Light sits on your desktop and mirrors Claude Code session state in one glance:
+Claude Status Light sits on your desktop and mirrors Claude Code session state in one glance while you work in VS Code:
 
 - `yellow solid` = Claude is running
 - `red blinking` = Claude is waiting for you
@@ -10,9 +10,15 @@ Claude Status Light sits on your desktop and mirrors Claude Code session state i
 
 It is built with `Tauri + React`, plus a small local hook bridge that listens to Claude Code hooks and writes shared state for the desktop app.
 
+Current scope:
+
+- supported workflow: Claude Code inside VS Code
+- current docs and release testing are written around the VS Code plugin flow
+- other Claude Code surfaces may work if they emit the same hooks, but they are not the primary documented target today
+
 ## Why
 
-Claude Code often lives inside a busy editor window. This app makes status ambient:
+Claude Code inside VS Code often lives inside a busy editor window. This app makes status ambient:
 
 - keep coding or reading on another screen
 - notice immediately when Claude needs input
@@ -44,6 +50,16 @@ macOS note:
 
 The app also tries to configure Claude hooks automatically on startup.
 
+## Scope
+
+This project is currently aimed at one main use case:
+
+- you use Claude Code inside VS Code
+- you want a floating desktop indicator outside the editor
+- you want hook setup to be mostly automatic
+
+The underlying hook system is shared Claude Code behavior, so other surfaces may work. But the README, release flow, and troubleshooting guidance are intentionally centered on the VS Code plugin experience first.
+
 ## Status Semantics
 
 - `UserPromptSubmit` -> `running`
@@ -73,7 +89,7 @@ If the app rewrites hooks:
 
 - it shows `HOOKS UPDATED`
 - it shows the active bridge path and backup path
-- Claude Code should be reopened so it reloads the new hook path
+- the Claude Code panel in VS Code should be reopened so it reloads the new hook path
 
 Tray controls:
 
@@ -222,7 +238,7 @@ Bridge details: [bridge/README.md](bridge/README.md)
 `The light stays idle_unbound`
 
 - Claude hooks are missing or malformed in `~/.claude/settings.json`
-- Claude Code has not been reopened after hook changes
+- the Claude Code panel in VS Code has not been reopened after hook changes
 - `Reconnect Session` was not used after manual bridge tests
 
 `The label says SETUP NEEDED`
