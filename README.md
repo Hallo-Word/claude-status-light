@@ -20,6 +20,16 @@ Current scope:
 - current docs and release testing are written around the VS Code plugin flow
 - other Claude Code surfaces may work if they emit the same hooks, but they are not the primary documented target today
 
+## What's New in 0.2.2
+
+macOS-focused fixes:
+
+- **Usage dials work on macOS** — the app now reads the Claude OAuth token from the login Keychain, where Claude Code stores credentials on macOS, so the Session (5h) and Weekly (7d) dials populate (previously it only read `~/.claude/.credentials.json`, which macOS doesn't use).
+- **Truly transparent window** — enabled the macOS private-API path so the window background renders see-through instead of opaque.
+- **No more shadow halo** — disabled the native window drop shadow that drew a rectangular outline around the custom-shaped light housing.
+
+Windows build configuration and behavior are unchanged; all changes are macOS-gated or visual-only.
+
 ## What's New in 0.2.0
 
 - **Plan usage dials** — Session (5h) and Weekly (7d) usage, mirrored from Claude Code's `/usage`, shown as two ring gauges below the light. Orange-yellow under 80%, orange at 80%+.
