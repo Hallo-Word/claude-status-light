@@ -102,9 +102,15 @@ fn resolve_bridge_script_path(app: &AppHandle) -> Result<PathBuf, String> {
     }
 
     if let Ok(resource_dir) = app.path().resource_dir() {
-        let bundled = resource_dir.join("bridge").join("claude-hook.mjs");
-        if bundled.is_file() {
-            return Ok(bundled);
+        // Tauri maps the `../bridge/**/*` resource glob to `_up_/bridge/`
+        // inside the bundle, so check both layouts.
+        for bundled in [
+            resource_dir.join("bridge").join("claude-hook.mjs"),
+            resource_dir.join("_up_").join("bridge").join("claude-hook.mjs"),
+        ] {
+            if bundled.is_file() {
+                return Ok(bundled);
+            }
         }
     }
 
