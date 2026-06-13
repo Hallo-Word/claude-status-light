@@ -20,6 +20,10 @@ Current scope:
 - current docs and release testing are written around the VS Code plugin flow
 - other Claude Code surfaces may work if they emit the same hooks, but they are not the primary documented target today
 
+## What's New in 0.3.1
+
+- **Fix: button cutoff in expanded state** — v0.3.0 added a profile label row to the usage panel but did not increase the window height, causing the bottom two buttons to be clipped. Window height increased from 418 to 432 px.
+
 ## What's New in 0.3.0
 
 - **Account switching across config paths** — a new tray **Account** submenu lists every Claude config directory found in your home folder (`~/.claude`, `~/.claude-company`, …). Pick one and the usage dials track that account; the choice persists across restarts. See "Switching Accounts" below.
