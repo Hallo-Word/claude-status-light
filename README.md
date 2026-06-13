@@ -20,6 +20,14 @@ Current scope:
 - current docs and release testing are written around the VS Code plugin flow
 - other Claude Code surfaces may work if they emit the same hooks, but they are not the primary documented target today
 
+## What's New in 0.3.0
+
+- **Account switching across config paths** — a new tray **Account** submenu lists every Claude config directory found in your home folder (`~/.claude`, `~/.claude-company`, …). Pick one and the usage dials track that account; the choice persists across restarts. See "Switching Accounts" below.
+- **Per-path credentials** — the OAuth token is read from the selected path's `.credentials.json`, or on macOS from the Keychain entry Claude apps create per config dir, so any app logged into a path can be tracked.
+- **No more silent failures** — if the selected path has no usable login (missing or expired token, or the API rejects it), the panel shows `NO ACTIVE LOGIN` naming the path instead of hiding the dials. Transient network errors still keep the last good values.
+- **Hooks everywhere** — automatic hook setup now installs the bridge into every discovered config path, so sessions from any of them drive the light.
+- **Fixed bundled bridge resolution** — installed builds now find the bridge under `Resources/_up_/bridge` (previously they silently fell back to a dev path, breaking hook setup on machines without the repo).
+
 ## What's New in 0.2.2
 
 macOS-focused fixes:
