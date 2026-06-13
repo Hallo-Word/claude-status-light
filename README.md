@@ -109,14 +109,25 @@ Each dial shows the percentage used in the center and `resets in Xh` below. The 
 
 How it is fetched:
 
-- the Tauri backend reads your OAuth token from `~/.claude/.credentials.json` (the same credentials Claude Code uses) and calls the official `https://api.anthropic.com/api/oauth/usage` endpoint
+- the Tauri backend reads the OAuth token belonging to the selected config path (see "Switching Accounts" below) and calls the official `https://api.anthropic.com/api/oauth/usage` endpoint
+- the token comes from `<config dir>/.credentials.json`, or on macOS from the login Keychain entry that Claude apps create for that config dir
 - it is polled at a low frequency (every 5 minutes) because the endpoint rate-limits aggressively
-- on any error the last known values are kept; nothing is ever sent anywhere, usage percentages are only read back for display
-- if the token is expired or no data has been fetched yet, the dials simply do not appear
+- on transient errors (network, rate limits) the last known values are kept; nothing is ever sent anywhere, usage percentages are only read back for display
+- if the selected config path has no credentials, an expired token, or the API rejects the token, the panel shows `NO ACTIVE LOGIN` with the config path — sign in again with whatever Claude app uses that path
+
+## Switching Accounts (Config Paths)
+
+If you run Claude with more than one account — for example a personal account in `~/.claude` and a company account in `~/.claude-company` via `CLAUDE_CONFIG_DIR` — the tray menu gets an **Account** submenu listing every Claude config directory found in your home folder (`.claude*` directories that contain Claude footprints such as `settings.json` or `projects/`).
+
+- pick a config path in the Account submenu to point the usage dials at that account
+- the small path label above the dials shows which config path is being tracked
+- the choice is remembered across restarts (stored in the app's own `profiles.json`, never inside any Claude config dir)
+- the app never logs in or out for you; it only reads tokens that Claude apps already stored for each path, so any app (Claude Code CLI, the VS Code extension, or whatever replaces them) logged into a path can be tracked
+- config dirs outside your home folder can be added manually to `profiles.json` via `extraConfigDirs`
 
 ## Automatic Hook Setup
 
-On startup, the app tries to manage `~/.claude/settings.json` for you.
+On startup, the app tries to manage `settings.json` in every discovered Claude config directory (`~/.claude`, `~/.claude-company`, …) so sessions from any of them drive the light.
 
 Behavior:
 
